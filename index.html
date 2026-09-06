@@ -65,6 +65,21 @@
 
   section{padding: 88px 0;}
   section.hero{padding-top: 96px; padding-bottom: 72px;}
+  section.hero .wrap{display:flex; align-items:center; justify-content:space-between; gap:48px; flex-wrap:wrap;}
+  .hero-text{flex:1; min-width:280px;}
+  .hero-photo{flex-shrink:0;}
+  .hero-photo img{
+    width:148px; height:148px; border-radius:50%; object-fit:cover;
+    border:3px solid rgba(74,141,122,0.35);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+    display:block;
+  }
+  @media (max-width:640px){
+    section.hero .wrap{flex-direction:column-reverse; text-align:center; gap:28px;}
+    .hero-photo img{width:120px; height:120px;}
+    .lede{margin-left:auto; margin-right:auto;}
+    .hero-actions{justify-content:center;}
+  }
 
   .eyebrow{
     display:inline-block; font-size:12px; letter-spacing:1.5px; text-transform:uppercase;
@@ -127,7 +142,43 @@
   }
   .card-links a:hover{border-color: var(--green-light); color: var(--green-light); text-decoration:none;}
 
-  section.references{border-top:1px solid var(--border);}
+  .card p.desc strong{color: var(--paper);}
+  .card-links button.btn-more{
+    font-size:13px; font-weight:600; padding:8px 14px; border-radius:7px;
+    border:1px solid var(--green-light); color: var(--green-light);
+    background: rgba(74,141,122,0.10); cursor:pointer; font-family:inherit;
+    transition: all .15s ease;
+  }
+  .card-links button.btn-more:hover{background: rgba(74,141,122,0.22);}
+
+  .modal-overlay{
+    position:fixed; inset:0; background: rgba(6,13,23,0.72);
+    backdrop-filter: blur(3px);
+    display:none; align-items:center; justify-content:center;
+    padding:24px; z-index:100;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background: linear-gradient(180deg, #16233a, #0d1a2b);
+    border:1px solid var(--border); border-radius:16px;
+    max-width:600px; width:100%; max-height:80vh; overflow-y:auto;
+    padding:32px 34px; position:relative;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+  }
+  .modal-close{
+    position:absolute; top:16px; right:16px;
+    width:32px; height:32px; border-radius:50%;
+    border:1px solid var(--border); background: rgba(245,242,234,0.06);
+    color: var(--paper); font-size:18px; line-height:1; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition: all .15s ease;
+  }
+  .modal-close:hover{border-color: var(--green-light); color: var(--green-light);}
+  .modal-body h3{font-size:19px; color: var(--paper); font-weight:700; margin-bottom:16px; padding-right:30px;}
+  .modal-body p{color: var(--text-soft); font-size:14.5px; margin-bottom:12px;}
+  .modal-body strong{color: var(--paper);}
+
+section.references{border-top:1px solid var(--border);}
   .refs-empty{
     border:1px dashed var(--border); border-radius:14px; padding:32px 30px;
     color: var(--text-faint); font-size:14px;
@@ -182,18 +233,23 @@
 <main>
   <section class="hero" id="o-mne">
     <div class="wrap">
-      <span class="eyebrow">Cloud DevOps Engineer</span>
-      <h1 data-i18n="hero_h1">Staviam malé, spoľahlivé <span class="accent">API</span> pre SK/CZ/V4 trh.</h1>
-      <p class="lede" data-i18n="hero_lede">
-        Pracujem ako Cloud DevOps Engineer a popri tom navrhujem a prevádzkujem
-        jednoduché API produkty, ktoré automatizujú firemné papierovačky pomocou AI —
-        napríklad spracovanie faktúr a bločkov. Dôraz kladiem na presnosť, overiteľné
-        výstupy a žiadnu fabrikáciu dát. Každý produkt je nasadený, monitorovaný
-        a udržiavaný ako produkčný systém, nie ako demo.
-      </p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#projekty" data-i18n="btn_projects">Pozrieť projekty</a>
-        <a class="btn btn-ghost" href="#kontakt" data-i18n="btn_contact">Kontakt</a>
+      <div class="hero-text">
+        <span class="eyebrow">Cloud DevOps Engineer</span>
+        <h1 data-i18n="hero_h1">Staviam malé, spoľahlivé <span class="accent">API</span> pre SK/CZ/V4 trh.</h1>
+        <p class="lede" data-i18n="hero_lede">
+          Pracujem ako Cloud DevOps Engineer a popri tom navrhujem a prevádzkujem
+          jednoduché API produkty, ktoré automatizujú firemné papierovačky pomocou AI —
+          napríklad spracovanie faktúr a bločkov. Dôraz kladiem na presnosť, overiteľné
+          výstupy a žiadnu fabrikáciu dát. Každý produkt je nasadený, monitorovaný
+          a udržiavaný ako produkčný systém, nie ako demo.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#projekty" data-i18n="btn_projects">Pozrieť projekty</a>
+          <a class="btn btn-ghost" href="#kontakt" data-i18n="btn_contact">Kontakt</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <img src="data:image/jpeg;base64,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" alt="Peter Malinič">
       </div>
     </div>
   </section>
@@ -210,15 +266,11 @@
           </div>
           <span class="badge badge-live" data-i18n="badge_live">Live</span>
         </div>
-        <p class="desc" data-i18n="card1_desc">
-          Problém: spracovanie slovenských a českých faktúr a bločkov je manuálna
-          a chybová robota. Riešenie: REST API, ktoré z dokumentu spoľahlivo
-          extrahuje štruktúrované dáta (IČO, DIČ, IČ DPH, sumy, dátumy) do čistého JSON,
-          pripravené na integráciu do účtovného softvéru.
-        </p>
+        <p class="desc" data-i18n="card1_desc"><strong>Problém:</strong> spracovanie slovenských a českých faktúr a bločkov je manuálna a chybová robota.<br><strong>Riešenie:</strong> REST API, ktoré z dokumentu spoľahlivo extrahuje štruktúrované dáta (IČO, DIČ, IČ DPH, sumy, dátumy) do čistého JSON, pripravené na integráciu do účtovného softvéru.</p>
         <div class="card-links">
           <a href="https://rapidapi.com/petermalinicDO/api/sk-cz-invoice-receipt-parser" target="_blank" rel="noopener" data-i18n="link_rapidapi">RapidAPI listing →</a>
           <a href="https://zylalabs.com/api-marketplace/other/skcz+invoice+and+receipt+api+parser/13578" target="_blank" rel="noopener" data-i18n="link_zyla">Zyla API Hub →</a>
+          <button type="button" class="btn-more" data-modal="skcz" data-i18n="btn_more">Zistiť viac →</button>
         </div>
       </div>
 
@@ -230,15 +282,11 @@
           </div>
           <span class="badge badge-live" data-i18n="badge_live">Live</span>
         </div>
-        <p class="desc" data-i18n="card2_desc">
-          Problém: dodávateľské feedy (JSON, CSV, XML, aj neštruktúrované e-maily) majú
-          pri každom dodávateľovi iné názvy polí a formáty. Riešenie: API, ktoré pomocou
-          LLM mapuje ľubovoľný vstup na čistý Shopify/WooCommerce produktový a skladový
-          payload &mdash; bez fabrikácie dát, s pravidlovým fallbackom, ak AI krok zlyhá.
-        </p>
+        <p class="desc" data-i18n="card2_desc"><strong>Problém:</strong> dodávateľské feedy (JSON, CSV, XML, aj neštruktúrované e-maily) majú pri každom dodávateľovi iné názvy polí a formáty.<br><strong>Riešenie:</strong> API, ktoré pomocou LLM mapuje ľubovoľný vstup na čistý Shopify/WooCommerce produktový a skladový payload &mdash; bez fabrikácie dát, s pravidlovým fallbackom, ak AI krok zlyhá.</p>
         <div class="card-links">
           <a href="https://rapidapi.com/petermalinicDO/api/feedrelay" target="_blank" rel="noopener" data-i18n="link_rapidapi">RapidAPI listing →</a>
           <a href="https://zylalabs.com/api-marketplace/commerce+%26+ecommerce/feedrelay+product+sync+api/13739" target="_blank" rel="noopener" data-i18n="link_zyla">Zyla API Hub →</a>
+          <button type="button" class="btn-more" data-modal="feedrelay" data-i18n="btn_more">Zistiť viac →</button>
         </div>
       </div>
 
@@ -274,6 +322,13 @@
       </div>
     </div>
   </section>
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button type="button" class="modal-close" id="modalClose" aria-label="Zavrieť">&times;</button>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
 </main>
 
 <footer>
@@ -300,7 +355,10 @@
       card1_desc: "Problém: spracovanie slovenských a českých faktúr a bločkov je manuálna a chybová robota. Riešenie: REST API, ktoré z dokumentu spoľahlivo extrahuje štruktúrované dáta (IČO, DIČ, IČ DPH, sumy, dátumy) do čistého JSON, pripravené na integráciu do účtovného softvéru.",
       link_rapidapi: "RapidAPI listing →",
       link_zyla: "Zyla API Hub →",
+      btn_more: "Zistiť viac →",
       card2_desc: "Problém: dodávateľské feedy (JSON, CSV, XML, aj neštrukturované e-maily) majú pri každom dodávateľovi iné názvy polí a formáty. Riešenie: API, ktoré pomocou LLM mapuje ľubovoľný vstup na čistý Shopify/WooCommerce produktový a skladový payload — bez fabrikácie dát, s pravidlovým fallbackom, ak AI krok zlyhá.",
+      detail_skcz: "<h3 id=\'modalTitle\'>SK/CZ Document Parser</h3><p><strong>Problém:</strong> spracovanie slovenských a českých faktúr a bločkov je manuálna, opakovaná a chybová robota — každý dodávateľ či obchod má iný formát dokladu.</p><p><strong>Riešenie:</strong> REST API, ktoré z dokumentu spoľahlivo extrahuje štruktúrované dáta — IČO, DIČ, IČ DPH, sumy, dátumy, položky — a vráti čisté, konzistentné JSON, pripravené na priamu integráciu do účtovného alebo ERP softvéru.</p><p><strong>Ako sa dá použiť:</strong> ako súčasť automatizovaného spracovania faktúr pri príjme pošty, ako krok vo firemnom účtovnom workflow, alebo ako vstup pre vlastnú aplikáciu na správu dokladov.</p><p>Dostupné cez RapidAPI aj Zyla API Hub, s cenovými tiermi podľa objemu spracovaných dokumentov mesačne.</p>",
+      detail_feedrelay: "<h3 id=\'modalTitle\'>FeedRelay</h3><p><strong>Problém:</strong> dodávateľské feedy prichádzajú v desiatkach rôznych tvarov — neusporiadaný JSON, surové CSV exporty, XML, alebo aj voľný text e-mailu o zmene skladu — a každý dodávateľ pomenúva rovnaké polia (SKU, cena, sklad, obrázok) inak.</p><p><strong>Riešenie:</strong> jeden endpoint <code>/v1/transform/{platforma}</code>, ktorý prijme ľubovoľný z týchto formátov, pomocou LLM namapuje polia na cieľovú schému a vráti hotový Shopify alebo WooCommerce produktový a skladový payload. Každá hodnota vo výstupe je odvodená priamo zo vstupu — model nič nevymýšľa — a ak AI krok zlyhá, automaticky sa použije pravidlový fallback mapper, takže vždy príde odpoveď.</p><p><strong>Ďalšie vlastnosti:</strong> dávkové spracovanie viacerých záznamov v jednom requeste, automatické rozpoznanie vstupného formátu, voliteľné čistenie HTML v popisoch.</p><p>Dostupné cez RapidAPI (4 tiery od $0 do $79.99/mes.) aj Zyla API Hub.</p>",
       h2_refs: "Referencie zákazníkov",
       refs_empty: "Táto sekcia sa pripravuje. Prvé referencie pribudnú tu, hneď ako ich zákazníci potvrdia so súhlasom na zverejnenie.",
       h2_contact: "Kontakt",
@@ -321,7 +379,10 @@
       card1_desc: "Problem: processing Slovak and Czech invoices and receipts is manual, error-prone work. Solution: a REST API that reliably extracts structured data (tax IDs, VAT numbers, amounts, dates) from the document into clean JSON, ready to plug into accounting software.",
       link_rapidapi: "RapidAPI listing →",
       link_zyla: "Zyla API Hub →",
+      btn_more: "Learn more →",
       card2_desc: "Problem: supplier feeds (JSON, CSV, XML, even unstructured emails) use different field names and formats from every supplier. Solution: an API that uses an LLM to map any input onto a clean Shopify/WooCommerce product and inventory payload — never fabricating data, with a rule-based fallback if the AI step fails.",
+      detail_skcz: "<h3 id=\'modalTitle\'>SK/CZ Document Parser</h3><p><strong>Problem:</strong> processing Slovak and Czech invoices and receipts is manual, repetitive, error-prone work — every supplier or store uses a different document format.</p><p><strong>Solution:</strong> a REST API that reliably extracts structured data from the document — tax IDs, VAT numbers, amounts, dates, line items — and returns clean, consistent JSON, ready to plug straight into accounting or ERP software.</p><p><strong>Typical use:</strong> as part of automated invoice processing on incoming mail, as a step in a company's accounting workflow, or as input for a custom document-management app.</p><p>Available on RapidAPI and Zyla API Hub, with pricing tiers based on monthly document volume.</p>",
+      detail_feedrelay: "<h3 id=\'modalTitle\'>FeedRelay</h3><p><strong>Problem:</strong> supplier feeds arrive in dozens of different shapes — messy JSON, raw CSV exports, XML, or even free-text stock-update emails — and every supplier names the same fields (SKU, price, stock, image) differently.</p><p><strong>Solution:</strong> one endpoint, <code>/v1/transform/{platform}</code>, that accepts any of these formats, uses an LLM to map fields onto the target schema, and returns a ready-to-use Shopify or WooCommerce product and inventory payload. Every value in the output is derived directly from the input — the model never invents data — and if the AI step fails, it automatically falls back to a rule-based mapper, so you always get a response.</p><p><strong>Also included:</strong> batch processing of multiple records in one request, automatic input-format detection, optional HTML stripping in descriptions.</p><p>Available on RapidAPI (4 tiers from $0 to $79.99/mo) and Zyla API Hub.</p>",
       h2_refs: "Customer references",
       refs_empty: "This section is still being built. The first references will appear here as soon as customers agree to have them published.",
       h2_contact: "Contact",
@@ -342,7 +403,41 @@
       btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
     try { localStorage.setItem('site-lang', lang); } catch (e) {}
+    renderModalContent();
   }
+
+  var currentOpenModal = null;
+
+  function renderModalContent(){
+    if (!currentOpenModal) return;
+    var lang = document.documentElement.lang || 'sk';
+    var html = translations[lang]['detail_' + currentOpenModal];
+    if (html) document.getElementById('modalBody').innerHTML = html;
+  }
+
+  function openModal(id){
+    currentOpenModal = id;
+    renderModalContent();
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    currentOpenModal = null;
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.btn-more').forEach(function(btn){
+    btn.addEventListener('click', function(){ openModal(btn.getAttribute('data-modal')); });
+  });
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalOverlay').addEventListener('click', function(e){
+    if (e.target === this) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeModal();
+  });
 
   function initLang(){
     var saved = null;
